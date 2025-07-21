@@ -30,17 +30,29 @@
     --input-background: #495057;
 }
 
-/* Light Mode (Default) */
 body {
     font-family: "Poppins", sans-serif;
     color: var(--primary-text-color);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    background-attachment: fixed;
-    transition: all 0.3s ease;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-    min-height: 100vh;
+    background-color: var(--background-color);
+    transition: background-color 0.3s ease;
+    overflow-x: hidden;
+}
+
+/* Ensure light theme is default */
+body:not([data-theme]),
+body[data-theme="light"] {
+    --primary-text-color: #183b56;
+    --secondary-text-color: #577592;
+    --accent-color: #2294ed;
+    --accent-color-dark: #1d69a3;
+    --background-color: #f3f4f6;
+    --card-background: #fff;
+    --nav-background: #f3faff;
+    --nav-shadow: #bbd0e2;
+    --border-color: #bbd0e2;
+    --input-background: #fff;
+    background: #f3f4f6 !important;
+    background-image: none !important;
 }
 
 body::before {

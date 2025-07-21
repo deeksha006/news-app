@@ -42,6 +42,23 @@ body {
     overflow-x: hidden;
 }
 
+/* Ensure light theme is default */
+body:not([data-theme]),
+body[data-theme="light"] {
+    --primary-text-color: #183b56;
+    --secondary-text-color: #577592;
+    --accent-color: #2294ed;
+    --accent-color-dark: #1d69a3;
+    --background-color: #f3f4f6;
+    --card-background: #fff;
+    --nav-background: #f3faff;
+    --nav-shadow: #bbd0e2;
+    --border-color: #bbd0e2;
+    --input-background: #fff;
+    background: #f3f4f6 !important;
+    background-image: none !important;
+}
+
 p {
     color: var(--secondary-text-color);
     line-height: 1.4rem;

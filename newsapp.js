@@ -196,12 +196,10 @@ themeToggle.addEventListener('click', () => {
     localStorage.setItem('theme', isDark ? 'light' : 'dark');
 });
 
-// Load saved theme
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme) {
-    document.body.setAttribute('data-theme', savedTheme);
-    themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-}
+// Load saved theme or default to light
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.body.setAttribute('data-theme', savedTheme);
+themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 
 // Bookmarks functionality
 let bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');

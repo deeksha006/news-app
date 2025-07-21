@@ -12,10 +12,12 @@ services:
         value: 10000
       - key: JWT_SECRET
         generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
       - key: NEWS_API_KEY
         value: 60947cac199341f9a8e2bf4fa7bc6d50
       - key: FRONTEND_URL
-        sync: false
+        value: https://news-app-qdcn.onrender.com
       - key: BCRYPT_ROUNDS
         value: 12
       - key: RATE_LIMIT_WINDOW_MS

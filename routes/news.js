@@ -110,8 +110,7 @@ router.get('/', [
                 pageSize,
                 category,
                 cached: false,
-                fallback: true,
-                message: 'Showing sample articles due to API unavailability'
+                fallback: true
             });
         } else {
             res.status(503).json({
@@ -139,8 +138,7 @@ router.get('/', [
                     page,
                     pageSize,
                     category,
-                    fallback: true,
-                    message: 'Showing sample articles due to server error'
+                    fallback: true
                 });
                 return;
             }

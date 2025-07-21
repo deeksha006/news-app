@@ -188,32 +188,14 @@ async function fetchNews(query) {
             currentArticles = data.articles;
             displayNews(currentArticles);
 
-            // Show fallback message if using sample data
-            if (data.fallback) {
-                const newsCardContainer = document.getElementById("cardscontainer");
-                const fallbackMessage = document.createElement('div');
-                fallbackMessage.innerHTML = `
-                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 12px; margin-bottom: 20px; text-align: center;">
-                        <span style="color: #856404;">📰 Showing sample articles - Live news temporarily unavailable</span>
-                    </div>
-                `;
-                newsCardContainer.insertBefore(fallbackMessage, newsCardContainer.firstChild);
-            }
+            // Sample data is being used, but no need to show a message
         } else if (res.status === 503 || res.status === 500) {
             // Service unavailable or server error - try to show any articles returned
             if (data.articles && data.articles.length > 0) {
                 currentArticles = data.articles;
                 displayNews(currentArticles);
 
-                // Show fallback message
-                const newsCardContainer = document.getElementById("cardscontainer");
-                const fallbackMessage = document.createElement('div');
-                fallbackMessage.innerHTML = `
-                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 12px; margin-bottom: 20px; text-align: center;">
-                        <span style="color: #856404;">📰 Showing sample articles - Live news temporarily unavailable</span>
-                    </div>
-                `;
-                newsCardContainer.insertBefore(fallbackMessage, newsCardContainer.firstChild);
+                // Sample articles are being shown without notification
             } else {
                 // No articles available - show error message
                 const newsCardContainer = document.getElementById("cardscontainer");

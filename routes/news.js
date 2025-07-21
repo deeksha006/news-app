@@ -21,23 +21,24 @@ router.get('/', [
     query('sortBy').optional().isIn(['latest', 'popular', 'relevant']),
     query('dateRange').optional().isIn(['today', 'week', 'month'])
 ], optionalAuth, logActivity, async (req, res) => {
-    try {
-        // Check validation errors
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({
-                error: 'Validation failed',
-                details: errors.array()
-            });
-        }
+    // Check validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            error: 'Validation failed',
+            details: errors.array()
+        });
+    }
 
-        const {
-            category = 'technology',
-            page = 1,
-            pageSize = 20,
-            sortBy = 'latest',
-            dateRange = 'week'
-        } = req.query;
+    const {
+        category = 'technology',
+        page = 1,
+        pageSize = 20,
+        sortBy = 'latest',
+        dateRange = 'week'
+    } = req.query;
+
+    try {
 
         const db = Database.getInstance();
 
@@ -291,8 +292,8 @@ async function fetchFromNewsAPI(category, page, pageSize, sortBy, dateRange) {
                 break;
             case 'india':
                 query = 'India OR Indian OR Delhi OR Mumbai OR "Prime Minister" OR Bollywood OR cricket';
-                // Use top-headlines with country filter for better results
-                useTopHeadlines = true;
+                // Use everything endpoint with query for better results
+                useTopHeadlines = false;
                 break;
             case 'politics':
                 query = 'politics OR government OR election OR policy OR parliament';
@@ -335,10 +336,6 @@ async function fetchFromNewsAPI(category, page, pageSize, sortBy, dateRange) {
         } else if (category === 'entertainment') {
             params.category = 'entertainment';
             useTopHeadlines = true;
-        } else if (category === 'india') {
-            // For India, use everything endpoint with query instead of top-headlines
-            // This is more reliable than country-specific top-headlines
-            useTopHeadlines = false;
         } else {
             // Add date range (only for everything endpoint)
             if (!useTopHeadlines) {
@@ -412,7 +409,7 @@ async function fetchFromNewsAPI(category, page, pageSize, sortBy, dateRange) {
         console.error('NewsAPI fetch error:', error.response?.data || error.message);
         console.error('Error details:', {
             category,
-            endpoint,
+            useTopHeadlines,
             params: JSON.stringify(params, null, 2)
         });
         return [];

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Test - News Flow</title>
+    <link rel="stylesheet" href="newsapp.css">
+    <style>
+        .theme-test {
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background-color: var(--card-background);
+        }
+        .theme-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-controls">
+        <button id="theme-toggle" class="theme-toggle">🌙</button>
+    </div>
+
+    <div class="theme-test">
+        <h1>🎨 Theme Toggle Test</h1>
+        <p>This page tests the light and dark theme functionality.</p>
+
+        <div class="test-section">
+            <h2>Navigation Test</h2>
+            <nav>
+                <div class="main-nav container flex">
+                    <div class="nav-links">
+                        <ul class="flex">
+                            <li class="hover-link nav-item active">Technology</li>
+                            <li class="hover-link nav-item">Business</li>
+                            <li class="hover-link nav-item">India</li>
+                            <li class="hover-link nav-item">Sports</li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="test-section">
+            <h2>Search Bar Test</h2>
+            <div class="search-bar flex">
+                <input type="text" class="news-input" placeholder="Search news..." value="Test search">
+                <button class="search-button">Search</button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Card Test</h2>
+            <div class="card" style="max-width: 400px;">
+                <div class="card-header">
+                    <img src="https://via.placeholder.com/400x200/2294ed/ffffff?text=Test+Image" alt="Test">
+                </div>
+                <div class="card-content">
+                    <h3>Test Article Title</h3>
+                    <p>This is a test article description to check how text appears in both light and dark themes.</p>
+                    <div class="card-source">
+                        <span>Test Source • 2 hours ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>Button Test</h2>
+            <button class="bookmarks-button">📚 Bookmarks</button>
+            <button class="theme-toggle">🌙 Theme</button>
+        </div>
+
+        <div class="test-section">
+            <h2>Text Elements Test</h2>
+            <h3>Heading 3</h3>
+            <h4>Heading 4</h4>
+            <p>Regular paragraph text with <a href="#" style="color: var(--accent-color);">a link</a>.</p>
+            <ul>
+                <li>List item 1</li>
+                <li>List item 2</li>
+                <li>List item 3</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            themeToggle.textContent = isDark ? '🌙' : '☀️';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            
+            console.log('Theme switched to:', isDark ? 'light' : 'dark');
+        });
+
+        // Load saved theme or default to light
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        
+        console.log('Current theme:', savedTheme);
+    </script>
+</body>
+</html>

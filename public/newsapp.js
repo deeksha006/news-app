@@ -142,19 +142,47 @@ async function fetchNews(query) {
         if (res.ok && data.articles && data.articles.length > 0) {
             currentArticles = data.articles;
             displayNews(currentArticles);
-        } else if (res.status === 503) {
-            // Service unavailable - show helpful message
-            const newsCardContainer = document.getElementById("cardscontainer");
-            newsCardContainer.innerHTML = `
-                <div style="text-align: center; padding: 60px 20px; color: var(--primary-text-color);">
-                    <h2>📰 News Service Temporarily Unavailable</h2>
-                    <p style="font-size: 18px; margin: 20px 0;">We're having trouble connecting to our news sources right now.</p>
-                    <p style="color: var(--secondary-text-color); margin-bottom: 30px;">This usually resolves quickly. Please try again in a few moments.</p>
-                    <button onclick="fetchNews('${query}')" style="padding: 12px 24px; background-color: var(--accent-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px;">
-                        🔄 Try Again
-                    </button>
-                </div>
-            `;
+
+            // Show fallback message if using sample data
+            if (data.fallback) {
+                const newsCardContainer = document.getElementById("cardscontainer");
+                const fallbackMessage = document.createElement('div');
+                fallbackMessage.innerHTML = `
+                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 12px; margin-bottom: 20px; text-align: center;">
+                        <span style="color: #856404;">📰 Showing sample articles - Live news temporarily unavailable</span>
+                    </div>
+                `;
+                newsCardContainer.insertBefore(fallbackMessage, newsCardContainer.firstChild);
+            }
+        } else if (res.status === 503 || res.status === 500) {
+            // Service unavailable or server error - try to show any articles returned
+            if (data.articles && data.articles.length > 0) {
+                currentArticles = data.articles;
+                displayNews(currentArticles);
+
+                // Show fallback message
+                const newsCardContainer = document.getElementById("cardscontainer");
+                const fallbackMessage = document.createElement('div');
+                fallbackMessage.innerHTML = `
+                    <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; padding: 12px; margin-bottom: 20px; text-align: center;">
+                        <span style="color: #856404;">📰 Showing sample articles - Live news temporarily unavailable</span>
+                    </div>
+                `;
+                newsCardContainer.insertBefore(fallbackMessage, newsCardContainer.firstChild);
+            } else {
+                // No articles available - show error message
+                const newsCardContainer = document.getElementById("cardscontainer");
+                newsCardContainer.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: var(--primary-text-color);">
+                        <h2>📰 News Service Temporarily Unavailable</h2>
+                        <p style="font-size: 18px; margin: 20px 0;">We're having trouble connecting to our news sources right now.</p>
+                        <p style="color: var(--secondary-text-color); margin-bottom: 30px;">This usually resolves quickly. Please try again in a few moments.</p>
+                        <button onclick="fetchNews('${query}')" style="padding: 12px 24px; background-color: var(--accent-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px;">
+                            🔄 Try Again
+                        </button>
+                    </div>
+                `;
+            }
         } else {
             throw new Error(data.error || 'No articles found');
         }

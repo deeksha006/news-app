@@ -34,8 +34,13 @@ body {
     font-family: "Poppins", sans-serif;
     color: var(--primary-text-color);
     background-color: var(--background-color);
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
     overflow-x: hidden;
+}
+
+/* Smooth transitions for theme changes */
+*, *::before, *::after {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Ensure light theme is default */
@@ -53,6 +58,69 @@ body[data-theme="light"] {
     --input-background: #fff;
     background: #f3f4f6 !important;
     background-image: none !important;
+    color: #183b56 !important;
+}
+
+/* Proper theme handling */
+body:not([data-theme]),
+body[data-theme="light"] {
+    color: var(--primary-text-color);
+    background-color: var(--background-color);
+}
+
+[data-theme="dark"] {
+    color: var(--primary-text-color);
+    background-color: var(--background-color);
+}
+
+/* Dark theme specific overrides */
+[data-theme="dark"] body {
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
+}
+
+[data-theme="dark"] .card {
+    background-color: var(--card-background);
+    color: var(--primary-text-color);
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="dark"] nav {
+    background: rgba(52, 58, 64, 0.95);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Ensure text visibility in both themes */
+h1, h2, h3, h4, h5, h6, p, span, div, a, li {
+    color: inherit;
+}
+
+/* Dark theme text overrides */
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] p,
+[data-theme="dark"] span,
+[data-theme="dark"] div,
+[data-theme="dark"] a,
+[data-theme="dark"] li {
+    color: var(--primary-text-color);
+}
+
+/* Card content text */
+[data-theme="dark"] .card-header h3,
+[data-theme="dark"] .card-content p,
+[data-theme="dark"] .card-source {
+    color: var(--primary-text-color);
+}
+
+/* Modal text */
+[data-theme="dark"] .modal-content {
+    background-color: var(--card-background);
+    color: var(--primary-text-color);
 }
 
 body::before {
@@ -109,7 +177,7 @@ ul {
 
 /* Light Mode Navigation */
 nav {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
@@ -120,7 +188,7 @@ nav {
     right: 0;
     padding: 16px 0;
     transition: all 0.3s ease;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* Dark Mode Navigation */
@@ -166,13 +234,24 @@ nav {
     font-size: 15px;
     cursor: pointer;
     background: transparent;
+    color: var(--primary-text-color);
 }
 
-.nav-links ul li:hover {
-    background: rgba(0, 0, 0, 0.3);
-    color: white;
+/* Light theme navigation hover */
+body:not([data-theme]) .nav-links ul li:hover,
+body[data-theme="light"] .nav-links ul li:hover {
+    background: rgba(34, 148, 237, 0.1);
+    color: var(--accent-color);
     transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(34, 148, 237, 0.2);
+}
+
+/* Dark theme navigation hover */
+[data-theme="dark"] .nav-links ul li:hover {
+    background: rgba(52, 152, 219, 0.2);
+    color: var(--accent-color);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
 }
 
 .hover-link {
@@ -181,20 +260,31 @@ nav {
 }
 
 .hover-link:hover {
-    color: white;
+    color: var(--accent-color);
 }
 
 .hover-link:active {
-    color: white;
+    color: var(--accent-color);
     transform: translateY(0);
 }
 
-.nav-item.active {
+/* Light theme active navigation */
+body:not([data-theme]) .nav-item.active,
+body[data-theme="light"] .nav-item.active {
     color: white;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--accent-color);
     font-weight: 600;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 12px rgba(34, 148, 237, 0.4);
+    border: 1px solid var(--accent-color);
+}
+
+/* Dark theme active navigation */
+[data-theme="dark"] .nav-item.active {
+    color: white;
+    background: var(--accent-color);
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+    border: 1px solid var(--accent-color);
 }
 
 .search-bar {

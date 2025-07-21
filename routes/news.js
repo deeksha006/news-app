@@ -255,7 +255,6 @@ async function fetchFromNewsAPI(category, page, pageSize, sortBy, dateRange) {
                 query = 'India OR Indian OR Delhi OR Mumbai OR "Prime Minister" OR Bollywood OR cricket';
                 // Use top-headlines with country filter for better results
                 useTopHeadlines = true;
-                params.country = 'in'; // India country code
                 break;
             case 'politics':
                 query = 'politics OR government OR election OR policy OR parliament';
@@ -297,6 +296,10 @@ async function fetchFromNewsAPI(category, page, pageSize, sortBy, dateRange) {
             useTopHeadlines = true;
         } else if (category === 'entertainment') {
             params.category = 'entertainment';
+            useTopHeadlines = true;
+        } else if (category === 'india') {
+            params.country = 'in'; // India country code
+            params.category = 'general';
             useTopHeadlines = true;
         } else {
             // Add date range (only for everything endpoint)

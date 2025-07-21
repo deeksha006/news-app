@@ -138,12 +138,44 @@ const sampleNews = {
     ],
     "Politics": [
         {
-            title: "Policy Updates and Reforms",
-            description: "Latest political developments and policy changes affecting citizens nationwide.",
-            urlToImage: "https://via.placeholder.com/400x200/34495e/ffffff?text=Politics",
-            url: "#",
+            title: "Government Announces New Infrastructure Development Plan",
+            description: "The administration unveils a comprehensive infrastructure development plan focusing on transportation, digital connectivity, and sustainable energy projects.",
+            urlToImage: "https://via.placeholder.com/400x200/34495e/ffffff?text=Infrastructure+Policy",
+            url: "https://example.com/infrastructure-plan",
             source: { name: "Political Times" },
-            publishedAt: new Date().toISOString()
+            publishedAt: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "Legislative Session: Key Bills Under Review",
+            description: "Parliament is reviewing several important bills including healthcare reform, education funding, and environmental protection measures.",
+            urlToImage: "https://via.placeholder.com/400x200/8E44AD/ffffff?text=Legislative+Session",
+            url: "https://example.com/legislative-session",
+            source: { name: "Government Gazette" },
+            publishedAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "Election Commission Announces Voting Technology Upgrades",
+            description: "The Election Commission reveals plans to modernize voting systems with enhanced security features and improved accessibility.",
+            urlToImage: "https://via.placeholder.com/400x200/E74C3C/ffffff?text=Election+Tech",
+            url: "https://example.com/election-tech-upgrade",
+            source: { name: "Democracy Today" },
+            publishedAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "International Relations: Trade Agreement Negotiations",
+            description: "Diplomatic talks continue on new trade agreements aimed at strengthening economic partnerships with key international allies.",
+            urlToImage: "https://via.placeholder.com/400x200/3498DB/ffffff?text=Trade+Diplomacy",
+            url: "https://example.com/trade-negotiations",
+            source: { name: "Foreign Affairs Weekly" },
+            publishedAt: new Date(Date.now() - 7 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "Local Government Initiatives: Community Development Programs",
+            description: "Local authorities launch new community development programs focusing on education, healthcare, and economic opportunities.",
+            urlToImage: "https://via.placeholder.com/400x200/27AE60/ffffff?text=Community+Programs",
+            url: "https://example.com/community-development",
+            source: { name: "Local Government News" },
+            publishedAt: new Date(Date.now() - 9 * 60 * 60 * 1000).toISOString()
         }
     ],
     "Entertainment": [
@@ -496,8 +528,19 @@ const bookmarkSearchInput = document.getElementById('bookmark-search-input');
 
 // Load bookmarks on page load
 console.log('Loading bookmarks on page load...');
-console.log('Auth token present:', !!getAuthToken());
-console.log('User logged in:', localStorage.getItem('isLoggedIn'));
+const authToken = getAuthToken();
+const isLoggedIn = localStorage.getItem('isLoggedIn');
+console.log('Auth token present:', !!authToken);
+console.log('User logged in:', isLoggedIn);
+
+// Fix auth state inconsistency
+if (isLoggedIn === 'true' && !authToken) {
+    console.log('Fixing auth state inconsistency - clearing login status');
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userData');
+}
+
 loadBookmarks();
 
 showBookmarksBtn.addEventListener('click', () => {

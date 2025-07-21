@@ -130,6 +130,26 @@ function insertSampleData(db) {
                 author: 'Science Correspondent',
                 published_at: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
                 category_id: 4
+            },
+            {
+                title: 'Government Announces New Infrastructure Development Plan',
+                description: 'The administration unveils a comprehensive infrastructure development plan focusing on transportation, digital connectivity, and sustainable energy projects.',
+                url: 'https://example.com/infrastructure-plan',
+                image_url: 'https://via.placeholder.com/400x200/34495e/ffffff?text=Infrastructure+Policy',
+                source_name: 'Political Times',
+                author: 'Policy Reporter',
+                published_at: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(),
+                category_id: 5
+            },
+            {
+                title: 'Legislative Session: Key Bills Under Review',
+                description: 'Parliament is reviewing several important bills including healthcare reform, education funding, and environmental protection measures.',
+                url: 'https://example.com/legislative-session',
+                image_url: 'https://via.placeholder.com/400x200/8E44AD/ffffff?text=Legislative+Session',
+                source_name: 'Government Gazette',
+                author: 'Legislative Correspondent',
+                published_at: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
+                category_id: 5
             }
         ];
 

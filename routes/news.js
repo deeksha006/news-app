@@ -298,9 +298,9 @@ async function fetchFromNewsAPI(category, page, pageSize, sortBy, dateRange) {
             params.category = 'entertainment';
             useTopHeadlines = true;
         } else if (category === 'india') {
-            params.country = 'in'; // India country code
-            params.category = 'general';
-            useTopHeadlines = true;
+            // For India, use everything endpoint with query instead of top-headlines
+            // This is more reliable than country-specific top-headlines
+            useTopHeadlines = false;
         } else {
             // Add date range (only for everything endpoint)
             if (!useTopHeadlines) {
@@ -372,6 +372,11 @@ async function fetchFromNewsAPI(category, page, pageSize, sortBy, dateRange) {
         return [];
     } catch (error) {
         console.error('NewsAPI fetch error:', error.response?.data || error.message);
+        console.error('Error details:', {
+            category,
+            endpoint,
+            params: JSON.stringify(params, null, 2)
+        });
         return [];
     }
 }

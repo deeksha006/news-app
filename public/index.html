@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Flow</title>
+    <link rel="stylesheet" href="newsapp.css">
+    <script src="newsapp.js" defer></script>
+</head>
+
+<body>
+    <nav>
+        <div class="main-nav container flex">
+            <a href="#" class="company-logo" id="logo-home">
+                <img src="newsapplogo.jpg" alt="logo">
+            </a>
+            <div class="nav-links">
+                <ul class="flex">
+                    <li class="hover-link nav-item" id="sports" data-category="sports">Sports</li>
+                    <li class="hover-link nav-item" id="india" data-category="india">India</li>
+                    <li class="hover-link nav-item" id="technology" data-category="technology">Technology</li>
+                    <li class="hover-link nav-item" id="politics" data-category="politics">Politics</li>
+                    <li class="hover-link nav-item" id="business" data-category="business">Business</li>
+                    <li class="hover-link nav-item" id="entertainment" data-category="entertainment">Entertainment</li>
+
+                </ul>
+            </div>
+            <div class="search-bar flex">
+                <input type="text" class="news-input" id="search-text" placeholder="e.g. Science">
+                <button class="search-button" id="search-button">Search</button>
+                <button class="bookmarks-button" id="show-bookmarks">📚 Bookmarks</button>
+                <button class="theme-toggle" id="theme-toggle">🌙</button>
+                <button class="logout-button" id="logout-button">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Latest News</h1>
+                <p class="page-subtitle">Stay informed with the latest breaking news and updates</p>
+                <p class="bookmark-hint">💡 Click the ⭐ icon on any article to bookmark it for later reading</p>
+            </div>
+
+            <div class="filters-container container">
+                <div class="date-filter">
+                    <label for="date-range">Time Range:</label>
+                    <select id="date-range">
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                    </select>
+                </div>
+                <div class="sort-filter">
+                    <label for="sort-by">Sort By:</label>
+                    <select id="sort-by">
+                        <option value="latest">Latest First</option>
+                        <option value="popular">Most Popular</option>
+                        <option value="relevant">Most Relevant</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="cards-container" id="cardscontainer"></div>
+        </div>
+    </main>
+
+    <!-- Bookmarks Modal -->
+    <div id="bookmarks-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📚 Your Bookmarks</h2>
+                <div class="modal-actions">
+                    <button id="clear-all-bookmarks" class="clear-btn">🗑️ Clear All</button>
+                    <span class="close-modal">&times;</span>
+                </div>
+            </div>
+            <div class="bookmark-stats">
+                <span id="bookmark-count">0 bookmarks</span>
+                <button id="export-bookmarks" class="export-btn">📤 Export</button>
+            </div>
+            <div class="bookmark-search">
+                <input type="text" id="bookmark-search-input" placeholder="🔍 Search your bookmarks...">
+            </div>
+            <div id="bookmarks-container" class="bookmarks-grid"></div>
+            <div id="no-bookmarks" class="no-bookmarks" style="display: none;">
+                <div class="empty-state">
+                    <h3>📖 No bookmarks yet!</h3>
+                    <p>Start bookmarking articles by clicking the ⭐ icon on any news card.</p>
+                    <p>Your saved articles will appear here for easy access.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading-spinner" id="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+
+
+
+    <template id="template-news-card">
+        <div class="card">
+            <div class="card-header">
+                <img src="https://via.placeholder.com/400x200" alt="" id="news-img">
+            </div>
+            <div class="card-content">
+                <h3 id="news-title">This is the Title</h3>
+                <h6 class="news-source" id="news-source">constGenius 02/02/2024</h6>
+                <p class="news-desc" id="news-desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem
+                    incidunt ratione, dolore beatae quaerat voluptatum autem fugit voluptas minima eligendi facere
+                    tenetur cumque. Dolorem porro, fugiat distinctio a accusamus cum!</p>
+            </div>
+        </div>
+    </template>
+
+
+</body>
+</html>

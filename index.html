@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Flow</title>
+    <link rel="stylesheet" href="newsapp.css">
+    <script>
+        // Check authentication
+        window.onload = function() {
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                window.location.href = 'landing.html';
+            }
+        }
+    </script>
+    <script src="newsapp.js" defer></script>
+</head>
+
+<body>
+    <nav>
+        <div class="main-nav container flex">
+            <a href="" class="company-logo">
+                <img src="newsapplogo.jpg" alt="logo">
+            </a>
+            <div class="nav-links">
+                <ul class="flex">
+                    <li class="hover-link nav-item" id="cricket" onClick="onNavItemClick('cricket')">Cricket</li>
+                    <li class="hover-link nav-item" id="india" onClick="onNavItemClick('india')">India</li>
+                    <li class="hover-link nav-item" id="technology" onClick="onNavItemClick('technology')">Technology</li>
+                    <li class="hover-link nav-item" id="politics" onClick="onNavItemClick('politics')">Politics</li>
+                    <li class="hover-link nav-item" id="business" onClick="onNavItemClick('business')">Business</li>
+                    <li class="hover-link nav-item" id="entertainment" onClick="onNavItemClick('entertainment')">Entertainment</li>
+
+                </ul>
+            </div>
+            <div class="search-bar flex">
+                <input type="text" class="news-input" id="search-text" placeholder="e.g. Science">
+                <button class="search-button" id="search-button">Search</button>
+                <button class="bookmarks-button" id="show-bookmarks">📚 Bookmarks</button>
+                <button class="theme-toggle" id="theme-toggle">🌙</button>
+                <button class="logout-button" onclick="handleLogout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="filters-container container">
+        <div class="date-filter">
+            <label for="date-range">Time Range:</label>
+            <select id="date-range">
+                <option value="today">Today</option>
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+            </select>
+        </div>
+        <div class="sort-filter">
+            <label for="sort-by">Sort By:</label>
+            <select id="sort-by">
+                <option value="latest">Latest First</option>
+                <option value="popular">Most Popular</option>
+                <option value="relevant">Most Relevant</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Bookmarks Modal -->
+    <div id="bookmarks-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Your Bookmarks</h2>
+            <div id="bookmarks-container"></div>
+        </div>
+    </div>
+
+    <div class="loading-spinner" id="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <main>
+        <div class="cards-container container flex" id="cardscontainer"></div>
+    </main>
+
+    <template id="template-news-card">
+        <div class="card">
+            <div class="card-header">
+                <img src="https://via.placeholder.com/400x200" alt="" id="news-img">
+            </div>
+            <div class="card-content">
+                <h3 id="news-title">This is the Title</h3>
+                <h6 class="news-source" id="news-source">constGenius 02/02/2024</h6>
+                <p class="news-desc" id="news-desc">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rem
+                    incidunt ratione, dolore beatae quaerat voluptatum autem fugit voluptas minima eligendi facere
+                    tenetur cumque. Dolorem porro, fugiat distinctio a accusamus cum!</p>
+            </div>
+        </div>
+    </template>
+
+
+</body>
+</html>

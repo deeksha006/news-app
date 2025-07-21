@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: news-app
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NEWS_API_KEY
+        value: 60947cac199341f9a8e2bf4fa7bc6d50
+      - key: FRONTEND_URL
+        sync: false
+      - key: BCRYPT_ROUNDS
+        value: 12
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
+      - key: LOG_LEVEL
+        value: info
+      - key: CACHE_DURATION_MINUTES
+        value: 30
+      - key: SESSION_CLEANUP_INTERVAL
+        value: 3600000
+    disk:
+      name: news-app-disk
+      mountPath: /opt/render/project/src/database
+      sizeGB: 1

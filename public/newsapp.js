@@ -433,15 +433,23 @@ function createNewsCard(article) {
 const themeToggle = document.getElementById('theme-toggle');
 themeToggle.addEventListener('click', () => {
     const isDark = document.body.getAttribute('data-theme') === 'dark';
-    document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-    themeToggle.textContent = isDark ? '🌙' : '☀️';
-    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+    const newTheme = isDark ? 'light' : 'dark';
+
+    document.body.setAttribute('data-theme', newTheme);
+    themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    localStorage.setItem('theme', newTheme);
+
+    console.log('Theme switched to:', newTheme);
+    console.log('Body data-theme attribute:', document.body.getAttribute('data-theme'));
 });
 
 // Load saved theme or default to light
 const savedTheme = localStorage.getItem('theme') || 'light';
 document.body.setAttribute('data-theme', savedTheme);
 themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+console.log('Initial theme loaded:', savedTheme);
+console.log('Body data-theme attribute:', document.body.getAttribute('data-theme'));
 
 // Bookmarks functionality
 let bookmarks = [];

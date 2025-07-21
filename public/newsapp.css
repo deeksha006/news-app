@@ -175,12 +175,10 @@ ul {
     padding: 0 24px;
 }
 
-/* Light Mode Navigation */
+/* Navigation Base Styles */
 nav {
-    background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     position: fixed;
     top: 0;
     z-index: 99;
@@ -188,13 +186,20 @@ nav {
     right: 0;
     padding: 16px 0;
     transition: all 0.3s ease;
+}
+
+/* Light Mode Navigation */
+body:not([data-theme]) nav,
+body[data-theme="light"] nav {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 /* Dark Mode Navigation */
 [data-theme="dark"] nav {
-    background: rgba(0, 0, 0, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    background: rgba(52, 58, 64, 0.95) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -235,6 +240,28 @@ nav {
     cursor: pointer;
     background: transparent;
     color: var(--primary-text-color);
+}
+
+/* Ensure navigation text is visible in dark mode */
+[data-theme="dark"] .nav-links ul li {
+    color: var(--primary-text-color) !important;
+}
+
+/* Dark mode navigation text overrides */
+[data-theme="dark"] .nav-links ul li,
+[data-theme="dark"] .hover-link {
+    color: #e9ecef !important;
+}
+
+/* Dark mode search elements */
+[data-theme="dark"] .news-input {
+    background-color: var(--input-background);
+    color: var(--primary-text-color);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .news-input::placeholder {
+    color: var(--secondary-text-color);
 }
 
 /* Light theme navigation hover */

@@ -209,6 +209,8 @@ body[data-theme="light"] nav {
     align-items: center;
     padding: 0;
     gap: 32px;
+    min-width: 0; /* Allow shrinking */
+    overflow: visible; /* Ensure buttons are visible */
 }
 
 .company-logo img {
@@ -318,6 +320,8 @@ body[data-theme="light"] .nav-item.active {
     display: flex;
     align-items: center;
     gap: 12px;
+    flex-wrap: wrap;
+    min-width: 0; /* Allow shrinking */
 }
 
 .news-input {
@@ -381,6 +385,12 @@ body[data-theme="light"] .nav-item.active {
 
 .logout-button:hover {
     background-color: #c82333;
+}
+
+/* Ensure logout button is always visible */
+.logout-button {
+    flex-shrink: 0; /* Prevent shrinking */
+    white-space: nowrap; /* Prevent text wrapping */
 }
 
 /* Light Mode Main */
@@ -1036,13 +1046,45 @@ select option {
     }
 }
 
+/* Medium screens - prevent logout button cutoff */
+@media (max-width: 1200px) {
+    .search-bar {
+        gap: 8px;
+    }
+
+    .news-input {
+        width: 200px;
+    }
+
+    .logout-button {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
+
 @media (max-width: 768px) {
+    .main-nav {
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
     .company-logo img {
         width: 90px;
     }
 
     .news-input {
-        width: 150px;
+        width: 120px;
+    }
+
+    .search-bar {
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .logout-button {
+        padding: 6px 10px;
+        font-size: 13px;
+        min-width: 60px;
     }
 
     .card {

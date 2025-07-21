@@ -97,18 +97,56 @@ router.get('/', [
             });
         }
 
-        // If API fails, return error - no fake data
-        res.status(503).json({
-            error: 'Unable to fetch news at this time. Please try again later.',
-            articles: [],
-            totalResults: 0,
-            page,
-            pageSize,
-            category
-        });
+        // If API fails, try to return sample data as fallback
+        console.log(`API failed for category: ${category}, trying sample data...`);
+        const sampleArticles = await getSampleArticles(category);
+
+        if (sampleArticles.length > 0) {
+            res.json({
+                articles: sampleArticles.slice(0, pageSize),
+                totalResults: sampleArticles.length,
+                page,
+                pageSize,
+                category,
+                cached: false,
+                fallback: true,
+                message: 'Showing sample articles due to API unavailability'
+            });
+        } else {
+            res.status(503).json({
+                error: 'Unable to fetch news at this time. Please try again later.',
+                articles: [],
+                totalResults: 0,
+                page,
+                pageSize,
+                category
+            });
+        }
 
     } catch (error) {
         console.error('News fetch error:', error);
+        console.error('Environment:', process.env.NODE_ENV);
+        console.error('API Key present:', !!NEWS_API_KEY);
+
+        // Try sample data as fallback
+        try {
+            const sampleArticles = await getSampleArticles(category);
+            if (sampleArticles.length > 0) {
+                res.json({
+                    articles: sampleArticles.slice(0, pageSize),
+                    totalResults: sampleArticles.length,
+                    page,
+                    pageSize,
+                    category,
+                    fallback: true,
+                    message: 'Showing sample articles due to server error'
+                });
+                return;
+            }
+        } catch (sampleError) {
+            console.error('Sample data fallback failed:', sampleError);
+        }
+
         res.status(500).json({
             error: 'Unable to fetch news articles at this time. Please try again later.',
             articles: [],

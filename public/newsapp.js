@@ -1,6 +1,10 @@
 // API Configuration
 const API_BASE_URL = '/api';
-const authToken = localStorage.getItem('authToken');
+
+// Get auth token dynamically
+function getAuthToken() {
+    return localStorage.getItem('authToken');
+}
 
 // Check authentication on page load
 window.addEventListener('load', function() {
@@ -129,6 +133,7 @@ async function fetchNews(query) {
             'Content-Type': 'application/json'
         };
 
+        const authToken = getAuthToken();
         if (authToken) {
             headers['Authorization'] = `Bearer ${authToken}`;
         }
@@ -383,6 +388,7 @@ function createNewsCard(article) {
 
     bookmarkIcon.addEventListener('click', async (e) => {
         e.stopPropagation();
+        console.log('Bookmark icon clicked for article:', article.title);
 
         // Add visual feedback
         bookmarkIcon.style.transform = 'scale(0.8)';
@@ -390,11 +396,14 @@ function createNewsCard(article) {
             bookmarkIcon.style.transform = '';
         }, 150);
 
-        const isNowBookmarked = await toggleBookmark(article);
-        bookmarkIcon.textContent = isNowBookmarked ? '★' : '☆';
-        bookmarkIcon.title = isNowBookmarked ? 'Remove from bookmarks' : 'Add to bookmarks';
-
-        // No success message - silent bookmarking
+        try {
+            const isNowBookmarked = await toggleBookmark(article);
+            bookmarkIcon.textContent = isNowBookmarked ? '★' : '☆';
+            bookmarkIcon.title = isNowBookmarked ? 'Remove from bookmarks' : 'Add to bookmarks';
+            console.log('Bookmark toggled successfully:', isNowBookmarked ? 'added' : 'removed');
+        } catch (error) {
+            console.error('Error toggling bookmark:', error);
+        }
     });
 
     // Handle different article formats (API vs Database)
@@ -462,6 +471,9 @@ const exportBtn = document.getElementById('export-bookmarks');
 const bookmarkSearchInput = document.getElementById('bookmark-search-input');
 
 // Load bookmarks on page load
+console.log('Loading bookmarks on page load...');
+console.log('Auth token present:', !!getAuthToken());
+console.log('User logged in:', localStorage.getItem('isLoggedIn'));
 loadBookmarks();
 
 showBookmarksBtn.addEventListener('click', () => {
@@ -502,6 +514,7 @@ bookmarkSearchInput.addEventListener('input', (e) => {
 });
 
 async function loadBookmarks() {
+    const authToken = getAuthToken();
     if (!authToken) {
         bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
         return;
@@ -640,6 +653,7 @@ function filterBookmarks(searchTerm) {
 }
 
 async function clearAllBookmarks() {
+    const authToken = getAuthToken();
     if (!authToken) {
         bookmarks = [];
         localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
@@ -706,13 +720,19 @@ function refreshBookmarkIcons() {
 }
 
 async function toggleBookmark(article) {
+    const authToken = getAuthToken();
+    console.log('toggleBookmark called, authToken:', authToken ? 'present' : 'missing');
+
     if (!authToken) {
         // Fallback to localStorage for non-authenticated users
+        console.log('Using localStorage fallback for bookmarks');
         const index = bookmarks.findIndex(b => b.url === article.url);
         if (index === -1) {
             bookmarks.push(article);
+            console.log('Added bookmark to localStorage');
         } else {
             bookmarks.splice(index, 1);
+            console.log('Removed bookmark from localStorage');
         }
         localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
         return index === -1;
@@ -723,6 +743,7 @@ async function toggleBookmark(article) {
 
         if (existingBookmark) {
             // Remove bookmark
+            console.log('Removing bookmark from server');
             const response = await fetch(`${API_BASE_URL}/bookmarks/${existingBookmark.bookmark_id}`, {
                 method: 'DELETE',
                 headers: {
@@ -736,6 +757,7 @@ async function toggleBookmark(article) {
             }
         } else {
             // Add bookmark
+            console.log('Adding bookmark to server');
             const response = await fetch(`${API_BASE_URL}/bookmarks`, {
                 method: 'POST',
                 headers: {
@@ -834,6 +856,7 @@ async function performSearch(query) {
             'Content-Type': 'application/json'
         };
 
+        const authToken = getAuthToken();
         if (authToken) {
             headers['Authorization'] = `Bearer ${authToken}`;
         }
@@ -890,6 +913,7 @@ if (hamburger) {
 
 async function handleLogout() {
     try {
+        const authToken = getAuthToken();
         if (authToken) {
             await fetch(`${API_BASE_URL}/auth/logout`, {
                 method: 'POST',

@@ -88,12 +88,52 @@ const sampleNews = {
     ],
     "India": [
         {
-            title: "Economic Growth Continues",
-            description: "India's economy shows robust growth with positive indicators across multiple sectors.",
-            urlToImage: "https://via.placeholder.com/400x200/e67e22/ffffff?text=India+News",
-            url: "#",
+            title: "India's Digital Revolution: UPI Transactions Cross 10 Billion Monthly",
+            description: "India's Unified Payments Interface (UPI) has achieved a historic milestone, processing over 10 billion transactions in a single month, showcasing the country's digital payment revolution.",
+            urlToImage: "https://via.placeholder.com/400x200/FF6B35/ffffff?text=UPI+Digital+India",
+            url: "https://example.com/india-upi-milestone",
+            source: { name: "Economic Times India" },
+            publishedAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "Monsoon Update: Heavy Rainfall Expected Across Northern India",
+            description: "The India Meteorological Department has issued weather warnings for heavy to very heavy rainfall across northern states including Delhi, Punjab, and Haryana.",
+            urlToImage: "https://via.placeholder.com/400x200/4A90E2/ffffff?text=Monsoon+India",
+            url: "https://example.com/india-monsoon-update",
             source: { name: "India Today" },
-            publishedAt: new Date().toISOString()
+            publishedAt: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "Indian Space Program: Chandrayaan-4 Mission Approved by Government",
+            description: "The Indian government has approved the ambitious Chandrayaan-4 lunar mission, marking another milestone in India's space exploration journey.",
+            urlToImage: "https://via.placeholder.com/400x200/8E44AD/ffffff?text=ISRO+Space+Mission",
+            url: "https://example.com/chandrayaan-4-approved",
+            source: { name: "The Hindu" },
+            publishedAt: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "Bollywood Box Office: Latest Releases Show Strong Performance",
+            description: "Recent Bollywood releases are showing encouraging box office numbers, indicating a recovery in the Indian film industry post-pandemic.",
+            urlToImage: "https://via.placeholder.com/400x200/E74C3C/ffffff?text=Bollywood+News",
+            url: "https://example.com/bollywood-box-office",
+            source: { name: "Filmfare" },
+            publishedAt: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "India's Renewable Energy Milestone: Solar Capacity Reaches 70 GW",
+            description: "India has achieved a significant milestone in renewable energy with solar power capacity reaching 70 gigawatts, moving closer to its 2030 targets.",
+            urlToImage: "https://via.placeholder.com/400x200/27AE60/ffffff?text=Solar+Energy+India",
+            url: "https://example.com/india-solar-milestone",
+            source: { name: "Business Standard" },
+            publishedAt: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString()
+        },
+        {
+            title: "Cricket Update: India Prepares for Upcoming Test Series",
+            description: "The Indian cricket team is gearing up for the upcoming Test series with intensive training sessions and strategic planning.",
+            urlToImage: "https://via.placeholder.com/400x200/F39C12/ffffff?text=Cricket+India",
+            url: "https://example.com/india-cricket-test-series",
+            source: { name: "ESPN Cricinfo" },
+            publishedAt: new Date(Date.now() - 16 * 60 * 60 * 1000).toISOString()
         }
     ],
     "Politics": [
@@ -251,9 +291,11 @@ function displayNews(articles) {
         if (!imageUrl) return false;
         if (!imageUrl.startsWith('http')) return false;
         if (imageUrl.length < 30) return false;
-        if (imageUrl.includes('placeholder')) return false;
-        if (imageUrl.includes('default')) return false;
-        if (imageUrl.includes('logo')) return false;
+
+        // Allow our sample placeholder images but block generic placeholders
+        if (imageUrl.includes('placeholder') && !imageUrl.includes('via.placeholder.com')) return false;
+        if (imageUrl.includes('default') && !imageUrl.includes('via.placeholder.com')) return false;
+        if (imageUrl.includes('logo') && !imageUrl.includes('via.placeholder.com')) return false;
         if (imageUrl.includes('avatar')) return false;
         if (imageUrl.endsWith('.svg')) return false;
 
@@ -553,9 +595,9 @@ function displayBookmarks(bookmarksToShow = null) {
         return imageUrl &&
                imageUrl.startsWith('http') &&
                imageUrl.length > 30 &&
-               !imageUrl.includes('placeholder') &&
-               !imageUrl.includes('default') &&
-               !imageUrl.includes('logo') &&
+               !(imageUrl.includes('placeholder') && !imageUrl.includes('via.placeholder.com')) &&
+               !(imageUrl.includes('default') && !imageUrl.includes('via.placeholder.com')) &&
+               !(imageUrl.includes('logo') && !imageUrl.includes('via.placeholder.com')) &&
                !imageUrl.includes('avatar') &&
                !imageUrl.endsWith('.svg');
     });

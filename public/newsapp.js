@@ -754,6 +754,16 @@ async function toggleBookmark(article) {
             if (response.ok) {
                 bookmarks = bookmarks.filter(b => b.url !== article.url);
                 return false;
+            } else if (response.status === 401) {
+                console.log('Authentication failed, falling back to localStorage');
+                // Clear invalid token and fall back to localStorage
+                localStorage.removeItem('authToken');
+                const index = bookmarks.findIndex(b => b.url === article.url);
+                if (index !== -1) {
+                    bookmarks.splice(index, 1);
+                    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+                    return false;
+                }
             }
         } else {
             // Add bookmark
@@ -778,6 +788,13 @@ async function toggleBookmark(article) {
             if (response.ok) {
                 const data = await response.json();
                 bookmarks.push(data.bookmark);
+                return true;
+            } else if (response.status === 401) {
+                console.log('Authentication failed, falling back to localStorage');
+                // Clear invalid token and fall back to localStorage
+                localStorage.removeItem('authToken');
+                bookmarks.push(article);
+                localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
                 return true;
             }
         }
